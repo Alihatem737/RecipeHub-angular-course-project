@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {Recipe} from "../../recipe.model";
+import {RecipeService} from "../../recipe.service";
 
 
 @Component({
@@ -16,13 +17,13 @@ export class RecipeItemComponent {
 
 
   @Input() recipe!: Recipe;
-  @Output() recipeselected = new EventEmitter<void>
 
-  constructor() {
+
+  constructor(private recipeService: RecipeService) {
   }
 
   onselected() {
 
-    this.recipeselected.emit();
+this.recipeService.recipeselected.emit(this.recipe);
   }
 }

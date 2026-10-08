@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RecipeItemComponent} from "./recipe-item/recipe-item.component";
 import {Recipe} from "../recipe.model";
 import {NgForOf} from "@angular/common";
+import {RecipeService} from "../recipe.service";
 
 @Component({
   selector: 'app-recipe-list',
@@ -13,22 +14,22 @@ import {NgForOf} from "@angular/common";
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.css'
 })
-export class RecipeListComponent {
+export class RecipeListComponent  implements OnInit {
 
 
-  @Output() recipeWasSelected = new EventEmitter <Recipe>();
-  recipes:Recipe[]  = [
 
-    new Recipe("recipe1" , "the description of recipe"
-      ,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQa4xuEokb64MhGzkoJ3eaUSVOfWgnGmf9ej1gfSyVRO6ZcKenpnQPBxsPC&s=10" ),
-    new Recipe("recipe2", "the description of recipe" ,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShzqfzcGOLYOYW3QEVj7hyVpQVCc68AnvKfo-iDiJQjs3e5VBMVgZvX88&s=10" )
-  ];
+  recipes:Recipe[] = [];
 
-  constructor() {
+  constructor(private recipeService: RecipeService) {
   }
 
-  onRecipeselected(recipe : Recipe) {
+  ngOnInit(): void {
+       this.recipes = this.recipeService.getrecipes()
+    }
 
-    this.recipeWasSelected.emit(recipe);
+
+  onRecipeselected(recipe: Recipe) {
+    this.recipeService.recipeselected.emit(recipe);
   }
+
 }
